@@ -1,0 +1,39 @@
+@startuml
+
+class Book {
+    - bookId: String
+    - title: String
+    - author: String
+    - isAvailable: boolean
+    - borrowedBy: Member
+    + borrowBook(member: Member): boolean
+    + returnBook(): void
+    + getBookDetails(): String
+}
+
+class Member {
+    - memberId: String
+    - name: String
+    - email: String
+    - borrowedBooks: List<Book>
+    + borrowBook(book: Book): boolean
+    + returnBook(book: Book): void
+    + getBorrowedBooksCount(): int
+}
+
+class Library {
+    - libraryName: String
+    - books: List<Book>
+    - members: List<Member>
+    + addBook(book: Book): void
+    + registerMember(member: Member): void
+    + findBook(bookId: String): Book
+    + getTotalBooks(): int
+    + getTotalMembers(): int
+}
+
+Library "1" *-- "0..*" Book
+Library "1" *-- "0..*" Member
+Member "0..*" --> "0..1" Book : borrows
+
+@enduml
